@@ -1,20 +1,33 @@
 <script>
 	import TaskCard from '$components/TaskCard.svelte';
+	import TaskForm from '$components/TaskForm.svelte';
 	import Modal from '$components/Modal.svelte';
 
 	export let data;
 
 	let selectedTask = null;
+	let newTaskModal = false;
 </script>
 
 <h1>Welcome to Imad's SvelteKit app!</h1>
 
 <div class="layout-container">
 	<div>
-		<h2>Projects</h2>
+		<div class="title-card">
+			<h2>Projects</h2>
+			<button>+</button>
+		</div>
 	</div>
 	<div>
-		<h2>Project Name</h2>
+		<div class="title-card">
+			<h2>Project Name</h2>
+			<button
+				on:click={() => {
+					newTaskModal = true;
+				}}
+				>+
+			</button>
+		</div>
 		{#if data.tasks && data.tasks.length}
 			<ul>
 				{#each data.tasks as task}
@@ -29,21 +42,24 @@
 	</div>
 </div>
 
-<form action="?/createTask" method="POST">
-	<label for="title">Name</label>
-	<input type="text" id="title" name="title" />
-	<label for="description">Description</label>
-	<input type="text" id="description" name="description" />
-	<button type="submit">Add Task</button>
-</form>
+{#if newTaskModal}
+	<Modal>
+		<TaskForm
+			action="?/createTask"
+			buttonText="Add Task"
+			closingFunction={() => (newTaskModal = false)}
+		/>
+	</Modal>
+{/if}
 
 {#if selectedTask}
 	<Modal>
-		<h2>Task Details</h2>
-		<p><strong>ID:</strong> {selectedTask.id}</p>
-		<p><strong>Title:</strong> {selectedTask.title}</p>
-		<p><strong>Description:</strong> {selectedTask.description}</p>
-		<button on:click={() => (selectedTask = null)}>Close</button>
+		<TaskForm
+			action="?/updateTask"
+			task={selectedTask}
+			buttonText="Update"
+			closingFunction={() => (selectedTask = null)}
+		/>
 	</Modal>
 {/if}
 
@@ -51,5 +67,9 @@
 	.layout-container {
 		display: grid;
 		grid-template-columns: 1fr 6fr;
+	}
+
+	.title-card {
+		display: flex;
 	}
 </style>

@@ -8,6 +8,7 @@ export const load = async () => {
 export const actions = {
 	createTask: async ({ request }) => {
 		const { title, description } = Object.fromEntries(await request.formData());
+		if (!title) return;
 		await prisma.task.create({
 			data: {
 				title,
@@ -16,13 +17,20 @@ export const actions = {
 		});
 	},
 
-	// updateTask: async ({ request }) => {
-	// 	// pass
-	// },
+	updateTask: async ({ request }) => {
+		const { id, title, description } = Object.fromEntries(await request.formData());
+		if (!id || !title) return;
+		await prisma.task.update({
+			where: { id: Number(id) },
+			data: {
+				title,
+				description
+			}
+		});
+	},
 
 	deleteTask: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get('id');
+		const { id } = Object.fromEntries(await request.formData());
 		if (!id) return;
 		await prisma.task.delete({
 			where: { id: Number(id) }
