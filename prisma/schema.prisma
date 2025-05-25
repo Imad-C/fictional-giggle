@@ -13,8 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+  projects Project[]
+}
+
+model Project {
+  id Int @id @default(autoincrement())
+  title String
+  tasks Task[]
+  userId Int?
+  user User? @relation(fields: [userId], references: [id])
+}
+
 model Task {
-  id    Int     @id @default(autoincrement())
-  title  String
+  id Int @id @default(autoincrement())
+  title String
   description String  
+  projectId Int?
+  project Project? @relation(fields: [projectId], references: [id])
 }
