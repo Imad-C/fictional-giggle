@@ -12,34 +12,43 @@
 <div class="task-container">
 	<ul>
 		{#each data.tasks as task}
-			<TaskCard {task} bind:selectedTask />
+			<li>
+				<TaskCard {task} bind:selectedTask />
+			</li>
 		{/each}
 	</ul>
-
-	{#if $newTaskFlag}
-		<Modal>
-			<TaskForm
-				action="?/createTask"
-				buttonText="Add Task"
-				closingFunction={() => newTaskFlag.set(false)}
-			/>
-		</Modal>
-	{/if}
-
-	{#if selectedTask}
-		<Modal>
-			<TaskForm
-				action="?/updateTask"
-				task={selectedTask}
-				buttonText="Update"
-				closingFunction={() => (selectedTask = null)}
-			/>
-		</Modal>
-	{/if}
 </div>
+
+{#if $newTaskFlag}
+	<Modal>
+		<TaskForm
+			action="?/createTask"
+			buttonText="Add Task"
+			closingFunction={() => newTaskFlag.set(false)}
+		/>
+	</Modal>
+{/if}
+
+{#if selectedTask}
+	<Modal>
+		<TaskForm
+			action="?/updateTask"
+			task={selectedTask}
+			buttonText="Update"
+			closingFunction={() => (selectedTask = null)}
+		/>
+	</Modal>
+{/if}
 
 <style>
 	.task-container {
-		border: 1px solid black;
+		padding: 0.5rem;
+		border: 2px solid gray;
+		border-radius: 4px;
+		overflow: auto;
+	}
+
+	.task-container li {
+		margin-bottom: 0.3rem;
 	}
 </style>
