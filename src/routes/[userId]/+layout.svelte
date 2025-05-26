@@ -9,7 +9,7 @@
 </script>
 
 <div class="layout-container">
-	<div class="title-card">
+	<div class="title-card project-title">
 		<h2>Projects</h2>
 		<button
 			on:click={() => {
@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="title-card">
-		<h2>{currentProject}</h2>
+		<h2>{data.currentProject?.title || 'Select a project.'}</h2>
 		{#if data.user.projects.length > 0}
 			<button
 				on:click={() => {
@@ -29,7 +29,7 @@
 		{/if}
 	</div>
 
-	<ul>
+	<ul class="project-sidebar">
 		{#each data.user.projects as project}
 			<li>
 				<a
@@ -65,13 +65,14 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		padding-left: 1rem;
 	}
 
 	.title-card button {
 		background: none;
 		border: none;
 		border-radius: 50%;
-		padding: none;
+		padding: 0;
 		cursor: pointer;
 	}
 
@@ -81,5 +82,16 @@
 
 	.title-card button:hover img {
 		transform: rotate(90deg);
+	}
+
+	.project-sidebar {
+		background: rgb(242, 241, 241);
+		padding-left: 1rem;
+		border-radius: 0 0 15px 15px;
+	}
+
+	.project-title {
+		background: rgb(242, 241, 241);
+		border-radius: 15px 15px 0 0;
 	}
 </style>

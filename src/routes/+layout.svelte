@@ -19,10 +19,10 @@
 
 	h1 {
 		text-align: center;
-		background: rgb(188, 187, 187);
 		padding-bottom: 0.3rem;
 		margin-top: 0;
-		margin-bottom: 0;
+		margin-bottom: 0.5rem;
+		border-bottom: 1px solid rgb(219, 216, 216);
 	}
 
 	.body {
@@ -33,7 +33,7 @@
 
 	footer {
 		text-align: center;
-		background: rgb(188, 187, 187);
 		margin-top: 1rem;
+		border-top: 1px solid rgb(219, 216, 216);
 	}
 </style>

@@ -43,7 +43,6 @@
 <style>
 	.task-container {
 		padding: 0.5rem;
-		border: 2px solid gray;
 		border-radius: 4px;
 		overflow: auto;
 	}

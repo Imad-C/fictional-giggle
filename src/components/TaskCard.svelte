@@ -3,41 +3,51 @@
 	export let selectedTask = null;
 </script>
 
-<div class="card">
+<div
+	class="card"
+	on:click={() => (selectedTask = task)}
+	on:keydown={() => (selectedTask = task)}
+	tabindex="0"
+	role="button"
+>
 	<div class="card-left">
-		<p class="task-title">{task.title}</p>
+		<div class="card-title">
+			<form action="?/deleteTask" method="POST">
+				<input type="hidden" name="id" value={task.id} />
+				<button type="submit" on:click|stopPropagation>
+					<img src="/minus.png" alt="Add" width="12" height="12" />
+				</button>
+			</form>
+			<p class="task-title">{task.title}</p>
+		</div>
+
 		<p class="task-description">{task.description}</p>
-	</div>
-	<div class="card-right">
-		<button on:click={() => (selectedTask = task)}>Update</button>
-		<form action="?/deleteTask" method="POST" style="display:inline;">
-			<input type="hidden" name="id" value={task.id} />
-			<button type="submit">Delete</button>
-		</form>
 	</div>
 </div>
 
 <style>
 	.card {
 		display: flex;
-		background: linear-gradient(to bottom, #e7e5e5 0%, #f5f5f5 100%);
 		padding: 0.1rem;
-		border: 2px solid gray;
 		border-radius: 2px;
+		margin: 0 2rem 0 2rem;
+		border-bottom: 1px solid rgb(225, 225, 225);
+		max-height: 3rem;
+		overflow: auto;
+		cursor: pointer;
 	}
 
 	.card:hover {
-		opacity: 0.8;
+		background: rgb(225, 225, 225, 0.8);
 	}
 
 	.card-left {
 		width: 70%;
 	}
 
-	.card-right {
-		margin-left: auto;
-		margin-top: auto;
-		margin: auto 0 0 auto;
+	.card-title {
+		display: flex;
+		gap: 0.5rem;
 	}
 
 	.task-title {
@@ -50,13 +60,18 @@
 	}
 
 	button {
-		background-color: #11bbb8; /* Green */
+		background: none;
 		border: none;
-		border-radius: 4px;
-		color: white;
-		text-align: center;
-		text-decoration: none;
-		font-size: 1rem;
+		border-radius: 50%;
+		padding: 0;
 		cursor: pointer;
+	}
+
+	button img {
+		transition: transform 0.3s;
+	}
+
+	button:hover img {
+		transform: rotate(90deg);
 	}
 </style>

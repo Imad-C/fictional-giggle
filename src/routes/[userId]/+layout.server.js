@@ -11,5 +11,8 @@ export const load = async ({ params }) => {
 			}
 		}
 	});
-	return { user };
+
+	const currentProject = params.projectId ? user.projects[params.projectId - 1] : null;
+
+	return { user, currentProject };
 };
