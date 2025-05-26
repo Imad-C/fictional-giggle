@@ -41,5 +41,16 @@ export const actions = {
 		await prisma.task.delete({
 			where: { id: Number(id) }
 		});
+	},
+
+	createProject: async ({ request, params }) => {
+		const { title } = Object.fromEntries(await request.formData());
+		if (!title) return;
+		await prisma.project.create({
+			data: {
+				title,
+				userId: Number(params.userId)
+			}
+		});
 	}
 };

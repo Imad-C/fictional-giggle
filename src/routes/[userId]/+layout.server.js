@@ -12,7 +12,12 @@ export const load = async ({ params }) => {
 		}
 	});
 
-	const currentProject = params.projectId ? user.projects[params.projectId - 1] : null;
+	let currentProject = null;
+	if (params.projectId) {
+		currentProject = user.projects.find((project) => {
+			return project.id === Number(params.projectId);
+		});
+	}
 
 	return { user, currentProject };
 };
