@@ -1,23 +1,32 @@
 <script>
+	import Modal from '$components/Modal.svelte';
 	import { newTaskFlag } from '$stores/forms.js';
 
 	export let data;
 	export let currentProject = 'Select a Project';
+
+	let newProjFlag = false;
 </script>
 
 <div class="layout-container">
 	<div class="title-card">
 		<h2>Projects</h2>
-		<button><img src="/add.png" alt="Add" width="24" height="24" /></button>
+		<button
+			on:click={() => {
+				newProjFlag = true;
+			}}><img src="/add.png" alt="Add" width="24" height="24" /></button
+		>
 	</div>
 
 	<div class="title-card">
 		<h2>{currentProject}</h2>
-		<button
-			on:click={() => {
-				newTaskFlag.set(true);
-			}}><img src="/add.png" alt="Add" width="24" height="24" /></button
-		>
+		{#if data.user.projects.length > 0}
+			<button
+				on:click={() => {
+					newTaskFlag.set(true);
+				}}><img src="/add.png" alt="Add" width="24" height="24" /></button
+			>
+		{/if}
 	</div>
 
 	<ul>
@@ -35,6 +44,16 @@
 
 	<slot />
 </div>
+
+{#if newProjFlag}
+	<Modal>
+		<form action="?/createProject" method="POST">
+			<label for="title">Name</label>
+			<input type="text" name="title" id="title" />
+			<button type="submit">New Project</button>
+		</form>
+	</Modal>
+{/if}
 
 <style>
 	.layout-container {
